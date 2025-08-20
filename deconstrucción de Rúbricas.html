@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Taller con Autoevaluación: Deconstrucción de Rúbricas</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- Librería para generar PDF -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" xintegrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        th, td {
+            border: 1px solid #e5e7eb;
+            padding: 0.75rem;
+            text-align: left;
+        }
+        th {
+            background-color: #f9fafb;
+        }
+        textarea {
+            transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+        }
+        textarea:focus {
+            border-color: #0d9488; /* Teal-600 */
+            box-shadow: 0 0 0 3px rgba(13, 148, 136, 0.2);
+            outline: none;
+        }
+        .rubric-container {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+        .rubric-content {
+            flex-grow: 1;
+        }
+        .expert-feedback {
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.5s ease-in-out;
+        }
+        .expert-feedback.show {
+            max-height: 500px;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px dashed #cbd5e1;
+        }
+        @media print {
+            .no-print {
+                display: none !important;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-100 text-gray-800">
+
+    <div id="content-to-export" class="container mx-auto p-4 md:p-8">
+        <!-- Header -->
+        <header class="text-center mb-10">
+            <h1 class="text-3xl md:text-4xl font-bold text-teal-800">Taller de "Deconstrucción de Rúbricas"</h1>
+            <p class="text-md md:text-lg text-gray-600 mt-2">Paso 1: Analiza las tres rúbricas y completa los campos de análisis. <br> Paso 2: Compara tus respuestas con el análisis del experto.</p>
+        </header>
+
+        <!-- Rubrics Comparison Grid -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+            <!-- Rubric 1: Deficient -->
+            <div class="bg-white p-6 rounded-2xl shadow-lg rubric-container">
+                <div class="rubric-content">
+                    <h2 class="text-xl font-bold text-red-700 mb-4 text-center">Ejemplo 1: Rúbrica Analítica Deficiente</h2>
+                    <table class="w-full text-sm mb-6">
+                        <!-- Table content from previous version -->
+                        <thead><tr><th>Criterio</th><th>Bueno (8-10)</th><th>Regular (5-7)</th><th>Malo (1-4)</th></tr></thead>
+                        <tbody><tr><td><strong>Conocimiento del Tema</strong></td><td>Demuestra un buen entendimiento del tema.</td><td>Parece entender la mayoría de los conceptos.</td><td>No entiende bien el tema.</td></tr><tr><td><strong>Organización</strong></td><td>La presentación está bien organizada.</td><td>La organización es más o menos clara.</td><td>La presentación es confusa y desorganizada.</td></tr><tr><td><strong>Claridad</strong></td><td>Habla de forma clara y segura.</td><td>A veces es difícil de entender.</td><td>Habla muy bajo o muy rápido.</td></tr><tr><td><strong>Material de Apoyo</strong></td><td>El material de apoyo es adecuado.</td><td>El material de apoyo podría ser mejor.</td><td>El material de apoyo es pobre o no existe.</td></tr></tbody>
+                    </table>
+                </div>
+                <div>
+                    <h3 class="font-semibold mt-4 mb-2">Tu Análisis Comparativo:</h3>
+                    <textarea class="w-full h-40 p-3 border border-gray-300 rounded-md" placeholder="Escribe aquí tus observaciones sobre las fortalezas y debilidades de esta rúbrica..."></textarea>
+                    <div class="expert-feedback">
+                        <h4 class="font-semibold text-teal-700">Análisis del Experto:</h4>
+                        <p class="text-sm text-gray-600 mt-1"><strong>Fortalezas:</strong> Prácticamente ninguna. Su único mérito es el intento de separar la evaluación en criterios.<br><strong>Debilidades:</strong> Es extremadamente **subjetiva** (usa términos como "bueno", "adecuado"). El lenguaje **no es observable** (¿cómo se mide "parece entender"?). Es **inútil para la retroalimentación**, ya que no le dice al estudiante qué acciones concretas debe tomar para mejorar.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Rubric 2: Holistic -->
+            <div class="bg-white p-6 rounded-2xl shadow-lg rubric-container">
+                 <div class="rubric-content">
+                    <h2 class="text-xl font-bold text-yellow-700 mb-4 text-center">Ejemplo 2: Rúbrica Holística</h2>
+                    <table class="w-full text-sm mb-6">
+                        <!-- Table content from previous version -->
+                        <thead><tr><th>Nivel de Desempeño</th><th>Descripción General</th></tr></thead>
+                        <tbody><tr><td><strong>Sobresaliente (9-10)</strong></td><td>La presentación es excepcional, demostrando un dominio profundo y matizado del tema. Las ideas están organizadas de forma lógica y convincente. El orador se comunica con gran claridad y confianza.</td></tr><tr><td><strong>Bueno (7-8)</strong></td><td>La presentación es sólida y bien ejecutada. El orador demuestra un buen conocimiento del tema y la estructura es clara. La comunicación es en su mayoría clara.</td></tr><tr><td><strong>Suficiente (5-6)</strong></td><td>La presentación cumple con los requisitos mínimos. El análisis es superficial y la organización puede ser inconsistente. La comunicación es comprensible pero carece de confianza.</td></tr><tr><td><strong>Insuficiente (1-4)</strong></td><td>La presentación es significativamente deficiente. El contenido es inexacto, incompleto o está mal organizado. La comunicación es confusa.</td></tr></tbody>
+                    </table>
+                </div>
+                <div>
+                    <h3 class="font-semibold mt-4 mb-2">Tu Análisis Comparativo:</h3>
+                    <textarea class="w-full h-40 p-3 border border-gray-300 rounded-md" placeholder="Escribe aquí tus observaciones sobre las fortalezas y debilidades de esta rúbrica..."></textarea>
+                    <div class="expert-feedback">
+                        <h4 class="font-semibold text-teal-700">Análisis del Experto:</h4>
+                        <p class="text-sm text-gray-600 mt-1"><strong>Fortalezas:</strong> Es **rápida de usar** para el evaluador, ideal para evaluaciones sumativas a gran escala. Proporciona una visión global de la calidad del trabajo.<br><strong>Debilidades:</strong> **No ofrece retroalimentación específica**. Un estudiante calificado como "Bueno" no sabe si su debilidad fue el contenido, la organización o la comunicación. Es poco útil para guiar la mejora (baja intención formativa).</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Rubric 3: Well-Designed -->
+            <div class="bg-white p-6 rounded-2xl shadow-lg rubric-container">
+                 <div class="rubric-content">
+                    <h2 class="text-xl font-bold text-green-700 mb-4 text-center">Ejemplo 3: Rúbrica Analítica Bien Diseñada</h2>
+                    <table class="w-full text-sm mb-6">
+                        <!-- Table content from previous version -->
+                        <thead><tr><th>Criterio</th><th>Ejemplar (4)</th><th>Competente (3)</th></tr></thead>
+                        <tbody><tr><td><strong>Estructura y Organización</strong></td><td>Tiene una introducción que capta la atención, un cuerpo lógico y una conclusión clara.</td><td>Tiene introducción, cuerpo y conclusión claros. Las ideas son fáciles de seguir.</td></tr><tr><td><strong>Profundidad del Contenido</strong></td><td>Ofrece un análisis o síntesis novedosa, respaldada por evidencia sólida.</td><td>Explica los conceptos clave de forma precisa y usa ejemplos relevantes.</td></tr><tr><td><strong>Comunicación Verbal y No Verbal</strong></td><td>El ritmo y volumen varían para enfatizar. Mantiene contacto visual constante.</td><td>Habla con claridad y a un ritmo adecuado. Mantiene contacto visual la mayor parte del tiempo.</td></tr><tr><td><strong>Uso de Apoyos Visuales</strong></td><td>Los apoyos están integrados fluidamente, son atractivos y refuerzan el mensaje sin sobrecargar.</td><td>Los apoyos son claros, legibles y relevantes para el contenido.</td></tr></tbody>
+                    </table>
+                 </div>
+                <div>
+                    <h3 class="font-semibold mt-4 mb-2">Tu Análisis Comparativo:</h3>
+                    <textarea class="w-full h-40 p-3 border border-gray-300 rounded-md" placeholder="Escribe aquí tus observaciones sobre las fortalezas y debilidades de esta rúbrica..."></textarea>
+                    <div class="expert-feedback">
+                        <h4 class="font-semibold text-teal-700">Análisis del Experto:</h4>
+                        <p class="text-sm text-gray-600 mt-1"><strong>Fortalezas:</strong> **Claridad de expectativas** para el estudiante. Permite una **retroalimentación específica y accionable** por criterio. Aumenta la **objetividad** al basarse en un lenguaje observable. Funciona como una **herramienta de aprendizaje** y autoevaluación.<br><strong>Debilidades:</strong> Requiere una mayor inversión de tiempo inicial para su diseño y calibración.</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="mt-10 text-center no-print flex flex-col md:flex-row gap-4 justify-center">
+            <button id="evaluate-button" class="bg-teal-600 text-white font-semibold py-3 px-8 rounded-lg hover:bg-teal-700 transition-colors shadow-md">
+                Comparar con Análisis de Experto
+            </button>
+            <button id="export-pdf-button" class="bg-gray-600 text-white font-semibold py-3 px-8 rounded-lg hover:bg-gray-700 transition-colors shadow-md">
+                Exportar Tabla Comparativa a PDF
+            </button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const exportButton = document.getElementById('export-pdf-button');
+            const evaluateButton = document.getElementById('evaluate-button');
+            const feedbackSections = document.querySelectorAll('.expert-feedback');
+
+            function exportToPDF() {
+                const element = document.getElementById('content-to-export');
+                const filename = 'Taller_Deconstruccion_de_Rubricas.pdf';
+
+                const elementToExport = element.cloneNode(true);
+                const textareas = element.querySelectorAll('textarea');
+                const clonedTextareas = elementToExport.querySelectorAll('textarea');
+
+                clonedTextareas.forEach((textarea, index) => {
+                    const contentDiv = document.createElement('div');
+                    contentDiv.innerHTML = textareas[index].value.replace(/\n/g, '<br>') || '<p class="text-gray-400 italic">Sin análisis.</p>';
+                    contentDiv.className = 'w-full min-h-[10rem] p-3 border border-gray-200 rounded-md bg-gray-50';
+                    textarea.parentNode.replaceChild(contentDiv, textarea);
+                });
+
+                const opt = {
+                  margin:       0.5,
+                  filename:     filename,
+                  image:        { type: 'jpeg', quality: 0.98 },
+                  html2canvas:  { scale: 2, useCORS: true },
+                  jsPDF:        { unit: 'in', format: 'letter', orientation: 'landscape' }
+                };
+
+                elementToExport.querySelector('.no-print').style.display = 'none';
+
+                html2pdf().from(elementToExport).set(opt).save();
+            }
+
+            function showFeedback() {
+                feedbackSections.forEach(section => {
+                    section.classList.add('show');
+                });
+                evaluateButton.textContent = "Análisis Mostrado";
+                evaluateButton.disabled = true;
+                evaluateButton.classList.add('bg-gray-400', 'cursor-not-allowed');
+                evaluateButton.classList.remove('bg-teal-600', 'hover:bg-teal-700');
+            }
+
+            exportButton.addEventListener('click', exportToPDF);
+            evaluateButton.addEventListener('click', showFeedback);
+        });
+    </script>
+</body>
+</html>
